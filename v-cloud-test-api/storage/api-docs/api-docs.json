@@ -1,0 +1,1684 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Vibbraneo",
+        "contact": {
+            "email": "diogorcazevedo@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://administracaodosistema.com.br/sv/api"
+        },
+        {
+            "url": "http://127.0.0.1:8000/api/"
+        }
+    ],
+    "paths": {
+        "/auth/login": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Sign in",
+                "description": "Login by email, password",
+                "operationId": "authLogin",
+                "requestBody": {
+                    "description": "Pass user credentials",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "vibbraneo@gmail.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "123456"
+                                    },
+                                    "persistent": {
+                                        "type": "boolean",
+                                        "example": "true"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "422": {
+                        "description": "Wrong credentials response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Sorry, wrong email address or password. Please try again"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/bid/getAllFromDeal/{id}": {
+            "get": {
+                "tags": [
+                    "bid"
+                ],
+                "summary": "get all bids param Deal",
+                "description": "List all bids from Deal",
+                "operationId": "getAllBidsFromDeal",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id param ",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "descrition list"
+                    },
+                    "default": {
+                        "description": "An error has occurred."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/bid/getAllFromUser/{id}": {
+            "get": {
+                "tags": [
+                    "bid"
+                ],
+                "summary": "get all bids param User",
+                "description": "List all bids from User",
+                "operationId": "getAllBidsFromUser",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id param ",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "descrition list"
+                    },
+                    "default": {
+                        "description": "An error has occurred."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/bid/getById/{id}": {
+            "get": {
+                "tags": [
+                    "bid"
+                ],
+                "summary": "get bid param id",
+                "description": "get bid by User",
+                "operationId": "getBidById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id param ",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "descrition list"
+                    },
+                    "default": {
+                        "description": "An error has occurred."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/bid/store/{deal_id}/{user_id}": {
+            "post": {
+                "tags": [
+                    "bid"
+                ],
+                "summary": "store bid",
+                "description": "create bid",
+                "operationId": "bidStore",
+                "parameters": [
+                    {
+                        "name": "deal_id",
+                        "in": "path",
+                        "description": "deal_id request",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "id do usuário requerente",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "description": "store bid fields",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "type",
+                                    "value"
+                                ],
+                                "properties": {
+                                    "accepted": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "enum": [
+                                            "Venda",
+                                            "Troca",
+                                            "Desejo"
+                                        ],
+                                        "example": "Venda"
+                                    },
+                                    "value": {
+                                        "type": "number",
+                                        "format": "text",
+                                        "example": "15000"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": "Proponho troca por iphone"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "descrition list"
+                    },
+                    "default": {
+                        "description": "An error has occurred."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/bid/accepted/{bid_id}": {
+            "put": {
+                "tags": [
+                    "bid"
+                ],
+                "summary": "accepted bid update",
+                "description": "accepted bid update",
+                "operationId": "bidAccepted",
+                "parameters": [
+                    {
+                        "name": "bid_id",
+                        "in": "path",
+                        "description": "bid_id request",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "description": "Pass accepted bid update",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "accepted"
+                                ],
+                                "properties": {
+                                    "accepted": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "accepted bid update"
+                    },
+                    "default": {
+                        "description": "An error has occurred."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/deal/getAll": {
+            "get": {
+                "tags": [
+                    "deal"
+                ],
+                "summary": "deals all",
+                "description": "List all deals",
+                "operationId": "dealGetAll",
+                "responses": {
+                    "200": {
+                        "description": "descrition list"
+                    },
+                    "default": {
+                        "description": "An error has occurred."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/deal/getAllByActiveStatus/{active}": {
+            "get": {
+                "tags": [
+                    "deal"
+                ],
+                "summary": "deals by active status",
+                "description": "List all deals by active status",
+                "operationId": "dealGetAllByActiveStatus",
+                "parameters": [
+                    {
+                        "name": "active",
+                        "in": "path",
+                        "description": "status da proposta ativa, inativa ou todas ",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "descrition list"
+                    },
+                    "default": {
+                        "description": "An error has occurred."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/deal/getByStatus/{status}": {
+            "get": {
+                "tags": [
+                    "deal"
+                ],
+                "summary": "deals by status",
+                "description": "List all deals by status",
+                "operationId": "dealGetByStatus",
+                "parameters": [
+                    {
+                        "name": "status",
+                        "in": "path",
+                        "description": "status da proposta aceita/recusada",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "descrition list"
+                    },
+                    "default": {
+                        "description": "An error has occurred."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/deal/getFromUserByStatus/{id}/{status}": {
+            "get": {
+                "tags": [
+                    "deal"
+                ],
+                "summary": "user deals by status",
+                "description": "Deals list from user status parameter",
+                "operationId": "dealGetFromUserByStatus",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id do usuário",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    },
+                    {
+                        "name": "status",
+                        "in": "path",
+                        "description": "status da proposta aceita/recusada",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "descrition list"
+                    },
+                    "default": {
+                        "description": "An error has occurred."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/deal/getAllFromUser/{id}": {
+            "get": {
+                "tags": [
+                    "deal"
+                ],
+                "summary": "user all deals",
+                "description": "Deals list from user",
+                "operationId": "dealGetAllFromUser",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id do usuário",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "descrition list"
+                    },
+                    "default": {
+                        "description": "An error has occurred."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/deal/getById/{id}": {
+            "get": {
+                "tags": [
+                    "deal"
+                ],
+                "summary": "deal by id",
+                "description": "Deal get deal registers by id",
+                "operationId": "dealGetById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id do usuário",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "descrition list"
+                    },
+                    "default": {
+                        "description": "An error has occurred."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/deal/store/{id}": {
+            "post": {
+                "tags": [
+                    "deal"
+                ],
+                "summary": "store deal",
+                "description": "create deal",
+                "operationId": "dealStore",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id do usuário requerente",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "description": "Pass store fields",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "type",
+                                    "value",
+                                    "description"
+                                ],
+                                "properties": {
+                                    "type": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "enum": [
+                                            "Venda",
+                                            "Troca",
+                                            "Desejo"
+                                        ],
+                                        "example": "Venda"
+                                    },
+                                    "value": {
+                                        "type": "number",
+                                        "format": "text",
+                                        "example": "15000"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Mackbook pro com CPU de 16 núcleos GPU de 7 núcleos Memória unificada de 256 GB SSD de 1T"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "descrition list"
+                    },
+                    "default": {
+                        "description": "An error has occurred."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/deal/update/{id}": {
+            "put": {
+                "tags": [
+                    "deal"
+                ],
+                "summary": "update deal",
+                "description": "edit deal",
+                "operationId": "dealUpdate",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "deal_id - id do registro",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "description": "Pass Update fields",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "type",
+                                    "value",
+                                    "description"
+                                ],
+                                "properties": {
+                                    "type": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "enum": [
+                                            "Venda",
+                                            "Troca",
+                                            "Desejo"
+                                        ],
+                                        "example": "Troca"
+                                    },
+                                    "value": {
+                                        "type": "number",
+                                        "format": "text",
+                                        "example": "26000"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Mackbook pro com CPU de 16 núcleos GPU de 7 núcleos Memória unificada de 256 GB SSD de 2T"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "descrition list"
+                    },
+                    "default": {
+                        "description": "An error has occurred."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/deal/updateUrgency/{id}": {
+            "put": {
+                "tags": [
+                    "deal"
+                ],
+                "summary": "update urgency deal",
+                "description": "edit urgency deal",
+                "operationId": "dealUrgencyUpdate",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "deal_id - id do registro",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "description": "Pass Update fields",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "type"
+                                ],
+                                "properties": {
+                                    "type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "Baixa",
+                                            "Media"
+                                        ],
+                                        "example": "Media"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "descrition list"
+                    },
+                    "default": {
+                        "description": "An error has occurred."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/deal/updateLocation/{id}": {
+            "put": {
+                "tags": [
+                    "deal"
+                ],
+                "summary": "update Location deal",
+                "description": "edit Location deal",
+                "operationId": "dealLocationUpdate",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "deal_id - id do registro",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "description": "Pass Update fields",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "zip_code",
+                                    "state",
+                                    "city",
+                                    "address"
+                                ],
+                                "properties": {
+                                    "lat": {
+                                        "type": "number",
+                                        "format": "text",
+                                        "example": "-20.311738744829306"
+                                    },
+                                    "lng": {
+                                        "type": "number",
+                                        "format": "text",
+                                        "example": "-40.288277444412245"
+                                    },
+                                    "zip_code": {
+                                        "type": "integer",
+                                        "format": "text",
+                                        "example": "29055260"
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": "Rua Aleixo Netto 1226"
+                                    },
+                                    "city": {
+                                        "type": "string",
+                                        "example": "Vitória"
+                                    },
+                                    "state": {
+                                        "type": "string",
+                                        "example": "ES"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "descrition list"
+                    },
+                    "default": {
+                        "description": "An error has occurred."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/deal/imageStore/{id}": {
+            "post": {
+                "tags": [
+                    "deal"
+                ],
+                "summary": "Store image deal",
+                "description": "edit Location deal",
+                "operationId": "dealImageStore",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "deal_id - id do registro",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "description": "Bulk products Body",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "file": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "descrition list"
+                    },
+                    "default": {
+                        "description": "An error has occurred."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/deal/active/{id}": {
+            "put": {
+                "tags": [
+                    "deal"
+                ],
+                "summary": "update active deal",
+                "description": "edit active deal",
+                "operationId": "dealActive",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "deal_id - id do registro",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "description": "Pass Update fields",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "active"
+                                ],
+                                "properties": {
+                                    "active": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "descrition list"
+                    },
+                    "default": {
+                        "description": "An error has occurred."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/invite/show/{id}": {
+            "get": {
+                "tags": [
+                    "invite"
+                ],
+                "summary": "get invite",
+                "description": "get invite by id",
+                "operationId": "showInvite",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id param ",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "descrition list"
+                    },
+                    "default": {
+                        "description": "An error has occurred."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/invite/getAllFromUser/{id}": {
+            "get": {
+                "tags": [
+                    "invite"
+                ],
+                "summary": "get all invites param User",
+                "description": "List all invites from User",
+                "operationId": "getAllInvitesFromUser",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id param ",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "descrition list"
+                    },
+                    "default": {
+                        "description": "An error has occurred."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/invite/store": {
+            "post": {
+                "tags": [
+                    "invite"
+                ],
+                "summary": "store invite",
+                "description": "create invite",
+                "operationId": "inviteStore",
+                "requestBody": {
+                    "description": "store invite fields",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "user_invited"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": "Fulano de tal"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "fulanodetal@gmail.com"
+                                    },
+                                    "user_invited": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "descrition list"
+                    },
+                    "default": {
+                        "description": "An error has occurred."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/invite/update/{id}": {
+            "put": {
+                "tags": [
+                    "invite"
+                ],
+                "summary": "update invite",
+                "description": "edit invite",
+                "operationId": "inviteUpdate",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id registro",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "description": "Pass Update fields",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "user_invited",
+                                    "user_id"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": "Fulana da Silva"
+                                    },
+                                    "user_invited": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": "2"
+                                    },
+                                    "user_id": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "descrition list"
+                    },
+                    "default": {
+                        "description": "An error has occurred."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/message/getAllFromDeal/{id}": {
+            "get": {
+                "tags": [
+                    "message"
+                ],
+                "summary": "get all messages param Deal",
+                "description": "List all messages from Deal",
+                "operationId": "getAllMessagesFromDeal",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id param ",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "descrition list"
+                    },
+                    "default": {
+                        "description": "An error has occurred."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/message/getAllFromDealAndUser/{deal_id}/{user_id}": {
+            "get": {
+                "tags": [
+                    "message"
+                ],
+                "summary": "get all messages param Deal and user",
+                "description": "List all messages from Deal and user",
+                "operationId": "getAllMessagesFromDealAndUser",
+                "parameters": [
+                    {
+                        "name": "deal",
+                        "in": "path",
+                        "description": "deal param ",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    },
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "description": "user id param ",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "descrition list"
+                    },
+                    "default": {
+                        "description": "An error has occurred."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/message/getById/{id}": {
+            "get": {
+                "tags": [
+                    "message"
+                ],
+                "summary": "get all message by id",
+                "description": "List all message by id",
+                "operationId": "getMessageById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id param ",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "descrition list"
+                    },
+                    "default": {
+                        "description": "An error has occurred."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/message/store/{deal_id}/{user_id}": {
+            "post": {
+                "tags": [
+                    "message"
+                ],
+                "summary": "Mensagem do cliente",
+                "description": "Mensagem do cliente interessado",
+                "operationId": "messageStore",
+                "parameters": [
+                    {
+                        "name": "deal_id",
+                        "in": "path",
+                        "description": "deal_id request",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "id do usuário requerente",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "description": "store bid fields",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "type",
+                                    "value"
+                                ],
+                                "properties": {
+                                    "deal_id": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": "1"
+                                    },
+                                    "user_id": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": "2"
+                                    },
+                                    "title": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": "Proponho troca por iphone"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "descrition list"
+                    },
+                    "default": {
+                        "description": "An error has occurred."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/message/update/{id}": {
+            "put": {
+                "tags": [
+                    "message"
+                ],
+                "summary": "Resposta do vendedor",
+                "description": "Resposta do dono do negócio (vendedor)",
+                "operationId": "messageUpdate",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id do param",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "description": "Pass Update fields",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "message_id",
+                                    "message"
+                                ],
+                                "properties": {
+                                    "message_id": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": "1"
+                                    },
+                                    "message": {
+                                        "type": "string",
+                                        "example": "Obrigado pelo interesse"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "descrition list"
+                    },
+                    "default": {
+                        "description": "An error has occurred."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/register/show/{id}": {
+            "get": {
+                "tags": [
+                    "register"
+                ],
+                "summary": "show register ",
+                "description": "show register",
+                "operationId": "showRegister",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id param ",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "descrition list"
+                    },
+                    "default": {
+                        "description": "An error has occurred."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/register/store/{id}": {
+            "post": {
+                "tags": [
+                    "register"
+                ],
+                "summary": "store register",
+                "description": "create register",
+                "operationId": "registerStore",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id do usuário requerente",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "description": "Pass store fields",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": "Novo Fulano de Tal"
+                                    },
+                                    "email": {
+                                        "type": "email",
+                                        "format": "text",
+                                        "example": "novofulano@gmail.com"
+                                    },
+                                    "password": {
+                                        "type": "password",
+                                        "example": "123456"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "descrition list"
+                    },
+                    "default": {
+                        "description": "An error has occurred."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/register/update/{id}": {
+            "put": {
+                "tags": [
+                    "register"
+                ],
+                "summary": "update register",
+                "description": "edit register",
+                "operationId": "registerUpdate",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": " id param",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "description": "Pass Update fields",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": "Mudei de Nome de Tal"
+                                    },
+                                    "email": {
+                                        "type": "email",
+                                        "format": "text",
+                                        "example": "mudeideemail@gmail.com"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "descrition list"
+                    },
+                    "default": {
+                        "description": "An error has occurred."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/register/updatePassword/{id}": {
+            "put": {
+                "tags": [
+                    "register"
+                ],
+                "summary": "update Password register",
+                "description": "edit Password register",
+                "operationId": "registerUpdatePassword",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": " id param",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "description": "Pass Update fields",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email"
+                                ],
+                                "properties": {
+                                    "password": {
+                                        "type": "password",
+                                        "format": "text",
+                                        "example": "654321"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "descrition list"
+                    },
+                    "default": {
+                        "description": "An error has occurred."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/register/updateLocation/{id}": {
+            "put": {
+                "tags": [
+                    "register"
+                ],
+                "summary": "update Location register",
+                "description": "edit Location register",
+                "operationId": "registerLocationUpdate",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": " id param",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "description": "Pass Update fields",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "zip_code",
+                                    "state",
+                                    "city",
+                                    "address"
+                                ],
+                                "properties": {
+                                    "lat": {
+                                        "type": "number",
+                                        "format": "text",
+                                        "example": "-20.311738744829306"
+                                    },
+                                    "lng": {
+                                        "type": "number",
+                                        "format": "text",
+                                        "example": "-40.288277444412245"
+                                    },
+                                    "zip_code": {
+                                        "type": "integer",
+                                        "format": "text",
+                                        "example": "29055260"
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": "Rua Aleixo Netto 1226"
+                                    },
+                                    "city": {
+                                        "type": "string",
+                                        "example": "Vitória"
+                                    },
+                                    "state": {
+                                        "type": "string",
+                                        "example": "ES"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "descrition list"
+                    },
+                    "default": {
+                        "description": "An error has occurred."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "name": "bearerAuth",
+                "in": "header",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    }
+}

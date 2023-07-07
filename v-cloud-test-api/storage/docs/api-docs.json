@@ -1,0 +1,637 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Vibbraneo",
+        "description": "Swagger vibbraneo",
+        "contact": {
+            "email": "diogorcazevedo@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://127.0.0.1:8000/api/"
+        }
+    ],
+    "paths": {
+        "/auth/login": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Sign in",
+                "description": "Login by email, password",
+                "operationId": "authLogin",
+                "requestBody": {
+                    "description": "Pass user credentials",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "vibbraneo@gmail.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "123456"
+                                    },
+                                    "persistent": {
+                                        "type": "boolean",
+                                        "example": "true"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "422": {
+                        "description": "Wrong credentials response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Sorry, wrong email address or password. Please try again"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/deal/getAll": {
+            "get": {
+                "tags": [
+                    "deal"
+                ],
+                "summary": "deals all",
+                "description": "List all deals",
+                "operationId": "dealGetAll",
+                "responses": {
+                    "200": {
+                        "description": "descrition list"
+                    },
+                    "default": {
+                        "description": "An error has occurred."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/deal/getAllByActiveStatus/{active}": {
+            "get": {
+                "tags": [
+                    "deal"
+                ],
+                "summary": "deals by active status",
+                "description": "List all deals by active status",
+                "operationId": "dealGetAllByActiveStatus",
+                "parameters": [
+                    {
+                        "name": "active",
+                        "in": "path",
+                        "description": "status da proposta ativa, inativa ou todas ",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "descrition list"
+                    },
+                    "default": {
+                        "description": "An error has occurred."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/deal/getByStatus/{status}": {
+            "get": {
+                "tags": [
+                    "deal"
+                ],
+                "summary": "deals by status",
+                "description": "List all deals by status",
+                "operationId": "dealGetByStatus",
+                "parameters": [
+                    {
+                        "name": "status",
+                        "in": "path",
+                        "description": "status da proposta aceita/recusada",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "descrition list"
+                    },
+                    "default": {
+                        "description": "An error has occurred."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/deal/getFromUserByStatus/{id}/{status}": {
+            "get": {
+                "tags": [
+                    "deal"
+                ],
+                "summary": "user deals by status",
+                "description": "Deals list from user status parameter",
+                "operationId": "dealGetFromUserByStatus",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id do usuário",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    },
+                    {
+                        "name": "status",
+                        "in": "path",
+                        "description": "status da proposta aceita/recusada",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "descrition list"
+                    },
+                    "default": {
+                        "description": "An error has occurred."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/deal/getAllFromUser/{id}": {
+            "get": {
+                "tags": [
+                    "deal"
+                ],
+                "summary": "user all deals",
+                "description": "Deals list from user",
+                "operationId": "dealGetAllFromUser",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id do usuário",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "descrition list"
+                    },
+                    "default": {
+                        "description": "An error has occurred."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/deal/getById/{id}": {
+            "get": {
+                "tags": [
+                    "deal"
+                ],
+                "summary": "deal by id",
+                "description": "Deal get deal registers by id",
+                "operationId": "dealGetById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id do usuário",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "descrition list"
+                    },
+                    "default": {
+                        "description": "An error has occurred."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/deal/store/{id}": {
+            "post": {
+                "tags": [
+                    "deal"
+                ],
+                "summary": "store deal",
+                "description": "create deal",
+                "operationId": "dealStore",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id do usuário requerente",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "description": "Pass store fields",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "type",
+                                    "value",
+                                    "description"
+                                ],
+                                "properties": {
+                                    "type": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "enum": [
+                                            "Venda",
+                                            "Troca",
+                                            "Desejo"
+                                        ],
+                                        "example": "Venda"
+                                    },
+                                    "value": {
+                                        "type": "number",
+                                        "format": "text",
+                                        "example": "15000"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Mackbook pro com CPU de 16 núcleos GPU de 7 núcleos Memória unificada de 256 GB SSD de 1T"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "descrition list"
+                    },
+                    "default": {
+                        "description": "An error has occurred."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/deal/update/{id}": {
+            "put": {
+                "tags": [
+                    "deal"
+                ],
+                "summary": "update deal",
+                "description": "edit deal",
+                "operationId": "dealUpdate",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "deal_id - id do registro",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "description": "Pass Update fields",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "type",
+                                    "value",
+                                    "description"
+                                ],
+                                "properties": {
+                                    "type": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "enum": [
+                                            "Venda",
+                                            "Troca",
+                                            "Desejo"
+                                        ],
+                                        "example": "Troca"
+                                    },
+                                    "value": {
+                                        "type": "number",
+                                        "format": "text",
+                                        "example": "26000"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Mackbook pro com CPU de 16 núcleos GPU de 7 núcleos Memória unificada de 256 GB SSD de 2T"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "descrition list"
+                    },
+                    "default": {
+                        "description": "An error has occurred."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/deal/updateUrgency/{id}": {
+            "put": {
+                "tags": [
+                    "deal"
+                ],
+                "summary": "update urgency deal",
+                "description": "edit urgency deal",
+                "operationId": "dealUrgencyUpdate",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "deal_id - id do registro",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "description": "Pass Update fields",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "type"
+                                ],
+                                "properties": {
+                                    "type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "Baixa",
+                                            "Media"
+                                        ],
+                                        "example": "Media"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "descrition list"
+                    },
+                    "default": {
+                        "description": "An error has occurred."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/deal/updateLocation/{id}": {
+            "put": {
+                "tags": [
+                    "deal"
+                ],
+                "summary": "update Location deal",
+                "description": "edit Location deal",
+                "operationId": "dealLocationUpdate",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "deal_id - id do registro",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "description": "Pass Update fields",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "zip_code",
+                                    "state",
+                                    "city",
+                                    "address"
+                                ],
+                                "properties": {
+                                    "lat": {
+                                        "type": "number",
+                                        "format": "text",
+                                        "example": "-20.311738744829306"
+                                    },
+                                    "lng": {
+                                        "type": "number",
+                                        "format": "text",
+                                        "example": "-40.288277444412245"
+                                    },
+                                    "zip_code": {
+                                        "type": "integer",
+                                        "format": "text",
+                                        "example": "29055260"
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": "Rua Aleixo Netto 1226"
+                                    },
+                                    "city": {
+                                        "type": "string",
+                                        "example": "Vitória"
+                                    },
+                                    "state": {
+                                        "type": "string",
+                                        "example": "ES"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "descrition list"
+                    },
+                    "default": {
+                        "description": "An error has occurred."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/deal/imageStore/{id}": {
+            "post": {
+                "tags": [
+                    "deal"
+                ],
+                "summary": "Store image deal",
+                "description": "edit Location deal",
+                "operationId": "dealImageStore",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "deal_id - id do registro",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "description": "Bulk products Body",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "file": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "descrition list"
+                    },
+                    "default": {
+                        "description": "An error has occurred."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "name": "bearerAuth",
+                "in": "header",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    }
+}
